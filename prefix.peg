@@ -1,0 +1,12 @@
+Prefix:
+	Operation <- Operator :Separator Operand :Separator Operand
+	Operands  <- Operand :Separator Operand
+	Operand   <- Operation / Number
+	Number    <- ~([0-9]+)
+	Digit     <- [0-9]
+	Operator  <- Multiply / Divide / Add / Subtract
+	Add       <- '+'
+	Subtract  <- '-'
+	Multiply  <- '*'
+	Divide    <- '/'
+	Separator <- ' '+

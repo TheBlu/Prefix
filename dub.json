@@ -1,0 +1,8 @@
+{
+	"name" : "prefix",
+	"description" : "Prefix math expression solver(addition, subtraction, multiplication, division).",
+	"dependencies" : {
+		"pegged" : "~>0.2.1"
+	},
+	"dflags" : ["-J./"]
+}
