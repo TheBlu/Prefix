@@ -11,24 +11,24 @@ real solve(ParseTree tree)
 	switch (tree.name)
 	{
 		case "Prefix.Number":
-			
+
 			// Convert matched string to integer
 			result = to!real(tree.matches[0]);
 			break;
 		case "Prefix.Operand":
-			
+
 			// Solve Number or Operation
 			result = solve(tree.children[0]);
 			break;
 		case "Prefix.Operation":
-			
+
 			// Get operation type
 			auto opType = tree.children[0].children[0];
-			
+
 			// Get operand values
 			auto op1 = solve(tree.children[1]);
 			auto op2 = solve(tree.children[2]);
-			
+
 			// Do the appropriate operation
 			switch (opType.name)
 			{
@@ -57,15 +57,15 @@ real solve(ParseTree tree)
 	return result;
 }
 
-string helpText = import("help.txt");
-
 void main(string[] args)
 {
 	import std.stdio : writeln;
 	import std.array : join;
+
 	string target = "";
 	if (args.length == 1)
 	{
+		import app.help : helpText;
 		writeln(helpText);
 		return;
 	}
@@ -73,13 +73,22 @@ void main(string[] args)
 	{
 		if (arg == "-h")
 		{
+			import app.help : helpText;
 			writeln(helpText);
 			return;
 		}
 	}
-	
-	target = args[1];
-	
+
+	if (args.length > 2)
+	{
+		import std.range : join;
+		target = args[1..$].join();
+	}
+	else
+	{
+		target = args[1];
+	}
+
 	auto tree = Prefix(target);
 	if (tree.successful)
 	{
@@ -87,6 +96,7 @@ void main(string[] args)
 	}
 	else
 	{
+		import app.help : helpText;
 		writeln("Error: Expression is in unrecognized format.", "\n",
 		        "Use spaces to separate operands.", "\n",
 		        "\n", helpText, "\n",
